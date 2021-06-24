@@ -15,9 +15,10 @@
           class="GPL__toolbar-input"
           dense
           standout="bg-primary"
-          v-model="search"
+          v-model="searchTerm"
           placeholder="Search"
           v-on:keyup.enter="enterClicked"
+           v-if="searchResults.length"
         >
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
@@ -31,6 +32,7 @@
           icon="search"
           unelevated
           v-on:click="enterClicked"
+           v-if="searchResults.length"
         />
       </q-toolbar>
     </q-header>
@@ -52,10 +54,12 @@ export default {
   setup() {
     const leftDrawerOpen = ref(false);
     const search = ref("");
-    const { searchIt } = useStore();
+    const { searchIt, searchTerm, searchResults } = useStore();
     return {
       leftDrawerOpen,
       search,
+      searchTerm,
+      searchResults,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

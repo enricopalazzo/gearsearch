@@ -6,6 +6,7 @@ const state = reactive({
   searchResults: [],
   shopResults:[],
   loading: false,
+  searchTerm:""
   //selectedTodo: null
 });
 
