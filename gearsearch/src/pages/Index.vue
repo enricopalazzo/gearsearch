@@ -13,8 +13,8 @@
         <template v-slot:prepend>
           <q-icon name="search" />
         </template>
-        <template v-slot:append
-          ><q-icon
+        <template v-slot:append>
+          <q-icon
             v-if="searchTerm !== ''"
             name="clear"
             class="cursor-pointer"
@@ -28,8 +28,7 @@
     <div v-else>
       <h1 v-if="loading">Loading...</h1>
       <div v-else>
-        <div class="q-pa-md" style="height: 100vh; width: 100vw">
-          <q-card>
+        <div class="q-pa-md" style="height: 90vh; width: 100vw">
             <q-tabs
               v-model="tab"
               class="text-grey"
@@ -42,60 +41,61 @@
               <q-tab name="shop" label="Shopping" />
               <q-tab name="videos" label="Videos" />
             </q-tabs>
+          <q-separator />
 
-            <q-separator />
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="summary" class="thePanel">
+              <div class="text-h6">Resumen</div>
+              <ul>
+                <li v-for="t in searchResultsLimited" :key="t.id">{{ t.title }}</li>
+              </ul>
+              <q-list bordered>
+                <q-item v-for="t in shopLimited" :key="t.id" clickable v-ripple>
+                  <q-item-section>
+                    <q-item-label>{{ t.title }}</q-item-label>
+                    <q-item-label caption lines="2">
+                      {{
+                      t.description
+                      }}
+                    </q-item-label>
+                  </q-item-section>
 
-            <q-tab-panels v-model="tab" animated>
-              <q-tab-panel name="summary" class="thePanel">
-                <div class="text-h6">Resumen</div>
-                <ul>
-                  <li v-for="t in searchResultsLimited" :key="t.id">
-                    {{ t.title }}
-                  </li>
-                </ul>
-                <q-list bordered>
-                  <q-item
-                    v-for="t in shopLimited"
-                    :key="t.id"
-                    clickable
-                    v-ripple
-                  >
+                  <q-item-section side top>
+                    <q-item-label caption>{{ t.price }}</q-item-label>
+                    <q-icon name="star" color="yellow" />
+                  </q-item-section>
+                  <q-item-section>{{ t.store_name }}</q-item-section>
+                </q-item>
+              </q-list>
+            </q-tab-panel>
+            <q-tab-panel name="web" class="the-panel">
+              <div class="text-h6">Mails</div>
+              <q-list>
+                <div v-for="t in searchResults" :key="t.id">
+                  <q-item>
                     <q-item-section>
-                      <q-item-label>{{ t.title }}</q-item-label>
-                      <q-item-label caption lines="2">{{
-                        t.description
-                      }}</q-item-label>
+                      <q-item-label>
+                        <span class="cursor-pointer" style="color:blue; font-size:14px;">{{t.url}}</span>
+                      </q-item-label>
+                      <q-item-label style="font-size:18px;">{{ t.title }}</q-item-label>
+                      <q-item-label caption lines="2">{{t.snippet.replace(/(<([^>]+)>)/gi, "")}}</q-item-label>
                     </q-item-section>
-
-                    <q-item-section side top>
-                      <q-item-label caption>{{ t.price }}</q-item-label>
-                      <q-icon name="star" color="yellow" />
-                    </q-item-section>
-                    <q-item-section>{{ t.store_name }}</q-item-section>
                   </q-item>
-                </q-list>
-              </q-tab-panel>
-              <q-tab-panel name="web" class="the-panel">
-                <div class="text-h6">Mails</div>
-                <ul>
-                  <li v-for="t in searchResults" :key="t.id">
-                    {{ t.title }}
-                  </li>
-                </ul>
-              </q-tab-panel>
+                  <q-separator spaced inset />
+                </div>
+              </q-list>
+            </q-tab-panel>
 
-              <q-tab-panel name="shop" class="the-panel">
-                <div class="text-h6">Alarms</div>
-                <ShopCard :items="shopResults"/>
-                
-              </q-tab-panel>
+            <q-tab-panel name="shop" class="the-panel">
+              <div class="text-h6">Compare prices</div>
+              <ShopCard :items="shopResults" />
+            </q-tab-panel>
 
-              <q-tab-panel name="videos">
-                <div class="text-h6">Movies</div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </q-tab-panel>
-            </q-tab-panels>
-          </q-card>
+            <q-tab-panel name="videos">
+              <div class="text-h6">Movies</div>
+              <VideoCards :items="videoResults" />
+            </q-tab-panel>
+          </q-tab-panels>
         </div>
       </div>
     </div>
@@ -105,19 +105,28 @@
 <script>
 import { defineComponent, ref, computed } from "vue";
 import useStore from "../store/useStore";
-import ShopCard from "../components/ShopCard"
+import ShopCard from "../components/ShopCard";
+import VideoCards from "../components/VideoCards";
 export default defineComponent({
   name: "PageIndex",
   components: {
     ShopCard,
+    VideoCards,
   },
   setup() {
-    const { searchResults, shopResults, loading, searchIt, searchTerm } =
-      useStore();
+    const {
+      searchResults,
+      shopResults,
+      videoResults,
+      loading,
+      searchIt,
+      searchTerm,
+    } = useStore();
     return {
       tab: ref("summary"),
       searchResults,
       shopResults,
+      videoResults,
       searchTerm,
       loading,
       enterClicked() {
