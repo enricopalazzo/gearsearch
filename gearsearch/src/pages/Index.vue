@@ -86,28 +86,8 @@
 
               <q-tab-panel name="shop" class="the-panel">
                 <div class="text-h6">Alarms</div>
-                <shopCard />
-                <q-list bordered>
-                  <q-item
-                    v-for="t in shopResults"
-                    :key="t.id"
-                    clickable
-                    v-ripple
-                  >
-                    <q-item-section>
-                      <q-item-label>{{ t.title }}</q-item-label>
-                      <q-item-label caption lines="2">{{
-                        t.description
-                      }}</q-item-label>
-                    </q-item-section>
-
-                    <q-item-section side top>
-                      <q-item-label caption>{{ t.price }}</q-item-label>
-                      <q-icon name="star" color="yellow" />
-                    </q-item-section>
-                    <q-item-section>{{ t.store_name }}</q-item-section>
-                  </q-item>
-                </q-list>
+                <ShopCard :items="shopResults"/>
+                
               </q-tab-panel>
 
               <q-tab-panel name="videos">
@@ -125,9 +105,12 @@
 <script>
 import { defineComponent, ref, computed } from "vue";
 import useStore from "../store/useStore";
-import { shopCard } from "../components/shopCard.vue"
+import ShopCard from "../components/ShopCard"
 export default defineComponent({
   name: "PageIndex",
+  components: {
+    ShopCard,
+  },
   setup() {
     const { searchResults, shopResults, loading, searchIt, searchTerm } =
       useStore();
