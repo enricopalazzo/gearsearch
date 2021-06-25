@@ -30,32 +30,35 @@
         <div class="q-pa-md" style="height: 90vh; width: 100vw">
           <q-tabs
             v-model="tab"
-            class="text-grey"
-            active-color="secondary"
-            indicator-color="secondary"
             align="justify"
+            class="tabMenu shadow-4 custom-tab"
           >
-            <q-tab name="summary" label="resumen" />
-            <q-tab name="web" label="EnLaWeb" />
-            <q-tab name="shop" label="Shopping" />
-            <q-tab name="videos" label="Videos" />
+            <q-tab name="summary" label="resumen" class="text-purple-5 bold" />
+            <q-tab name="web" label="EnLaWeb" class="text-cyan-6 bold" />
+            <q-tab name="shop" label="Shopping" class="text-yellow-8 bold" />
+            <q-tab
+              name="videos"
+              label="Videos"
+              class="text-deep-orange-7 bold"
+            />
           </q-tabs>
           <q-separator />
 
-          <q-tab-panels v-model="tab" animated>
+          <q-tab-panels v-model="tab" animated class="q-mt-xl">
             <q-tab-panel name="summary" class="thePanel">
               <div class="text-h6">Resumen</div>
+              <hr>
               <ul>
-                <li v-for="t in searchResultsLimited" :key="t.id">{{ t.title }}</li>
+                <li v-for="t in searchResultsLimited" :key="t.id">
+                  {{ t.title }}
+                </li>
               </ul>
               <q-list bordered>
                 <q-item v-for="t in shopLimited" :key="t.id" clickable v-ripple>
                   <q-item-section>
                     <q-item-label>{{ t.title }}</q-item-label>
                     <q-item-label caption lines="2">
-                      {{
-                      t.description
-                      }}
+                      {{ t.description }}
                     </q-item-label>
                   </q-item-section>
 
@@ -69,16 +72,19 @@
             </q-tab-panel>
             <q-tab-panel name="web" class="the-panel">
               <div class="text-h6">Mails</div>
+              <hr>
               <WebResultsCards :items="searchResults" />
             </q-tab-panel>
 
             <q-tab-panel name="shop" class="the-panel">
               <div class="text-h6">Compare prices</div>
+              <hr>
               <ShopCard :items="shopResults" />
             </q-tab-panel>
 
             <q-tab-panel name="videos">
               <div class="text-h6">Movies</div>
+              <hr>
               <VideoCards :items="videoResults" />
             </q-tab-panel>
           </q-tab-panels>
@@ -126,7 +132,26 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.tabMenu {
+      position: fixed;
+    top: 72px;
+    z-index: 100;
+    background: white;
+    width: 100%;
+    margin-left: -10px;
+}
 .thePanel {
   height: calc(100vh - 84px);
 }
+.bold {
+  font-weight: 500;
+}
+.custom-tab {
+    font-size: 18pt;
+  }
+
+ .q-tab__label {
+    font-weight: 600;
+  }
+ 
 </style>

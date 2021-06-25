@@ -5,9 +5,8 @@
         <q-btn flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title class="row items-center no-wrap">
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>Title
+          <img style="filter: invert(100%); width:80px; margin-right:15px;" src="~assets/img_562591.png" />
+          Gear Search
         </q-toolbar-title>
 
         <q-space />
@@ -18,11 +17,16 @@
           v-model="searchTerm"
           placeholder="Search"
           v-on:keyup.enter="enterClicked"
-           v-if="searchResults.length"
+          v-if="searchResults.length"
         >
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+            <q-icon
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="search = ''"
+            />
           </template>
         </q-input>
         <q-btn
@@ -32,13 +36,77 @@
           icon="search"
           unelevated
           v-on:click="enterClicked"
-           v-if="searchResults.length"
+          v-if="searchResults.length"
         />
+         <q-btn
+          class="YL__toolbar-input-btn"
+          text-color="white"
+          icon="save"
+          label="Save this search"
+          unelevated
+          v-on:click="saveSearchClicked"
+          v-if="searchResults.length"
+        />
+        <q-space />
+
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn round flat>
+            <q-avatar size="26px">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            </q-avatar>
+            <q-tooltip>Account</q-tooltip>
+            <q-menu>
+              <q-list style="min-width: 100px">
+                <q-item clickable v-close-popup>
+                  <q-item-section>Profile</q-item-section>
+                </q-item>
+                <q-item clickable v-close-popup>
+                  <q-item-section>Logout</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" side="left" overlay elevated>
-      <!-- drawer content -->
+    <q-drawer
+      v-model="leftDrawerOpen"
+      side="left"
+      overlay
+      elevated
+      :width="250"
+      :breakpoint="500"
+    >
+      <q-scroll-area class="fit">
+        <q-list padding class="menu-list" style="padding-top: 40px">
+          <SavedSearchsMenu />
+
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="youtube_searched_for" />
+            </q-item-section>
+
+            <q-item-section> Search history </q-item-section>
+          </q-item>
+
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="settings" />
+            </q-item-section>
+
+            <q-item-section> Settings </q-item-section>
+          </q-item>
+
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="help" />
+            </q-item-section>
+
+            <q-item-section> Help & Feedback </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
 
     <q-page-container>
@@ -50,22 +118,30 @@
 <script>
 import { ref } from "vue";
 import useStore from "../store/useStore";
+import SavedSearchsMenu from "../components/SavedSearchsMenu";
 export default {
+   components: {
+   SavedSearchsMenu
+  },
   setup() {
     const leftDrawerOpen = ref(false);
     const search = ref("");
-    const { searchIt, searchTerm, searchResults } = useStore();
+    const { searchIt, searchTerm, searchResults, saveSearch, savedSearchs } = useStore();
     return {
       leftDrawerOpen,
       search,
       searchTerm,
       searchResults,
+      savedSearchs,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
       enterClicked() {
         searchIt();
       },
+      saveSearchClicked() {
+        saveSearch();
+      }
     };
   },
 };

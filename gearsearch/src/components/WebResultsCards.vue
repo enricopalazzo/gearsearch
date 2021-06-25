@@ -1,7 +1,6 @@
 <template>
-  <div id="webresults" class="fit row wrap justify-center items-start content-start q-gutter-md">
-    <q-card
-      class="grid-item col-lg-5 col-sm-12 col-xs-12 no-border-radius"
+  <div id="parent" class="fit row wrap justify-center items-start content-start q-gutter-md">
+    <q-card class="grid-item no-border-radius"
       v-for="card of items"
       :key="card.id"
     >
@@ -28,5 +27,6 @@ export default {
 
 <style scoped>
 .grid-item {
+  max-width: 32%;
 }
 </style>
