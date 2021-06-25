@@ -1,6 +1,6 @@
 <template>
   <div id="parent" class="fit row wrap justify-center items-start content-start q-gutter-md">
-    <q-card class="grid-item" v-for="card of items" :key="card.url">
+    <q-card class="grid-item no-border-radius" v-for="card of items" :key="card.url">
       <q-card-section>
         <div class="text-h6">
           <a :href="card.url">{{card.title}}</a>

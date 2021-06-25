@@ -1,6 +1,6 @@
 <template>
   <div id="parent" class="fit row wrap justify-center items-start content-start q-gutter-md">
-    <q-card class="grid-item col-md-3 col-sm-6 col-xs-12" v-for="card of items" :key="card.id" >
+    <q-card class="grid-item col-md-3 col-sm-6 col-xs-12  no-border-radius " style=" flex-grow: 1;" v-for="card of items" :key="card.id" >
       <div v-if="!!card.snippet" class="">
         <div v-if="!!card.snippet.thumbnails.high">
           <img :src="card.snippet.thumbnails.high.url" style="max-width:100%" />

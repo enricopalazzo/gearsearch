@@ -2,7 +2,6 @@
   <q-page class="row items-center justify-evenly">
     <div v-if="!loading && !searchResults.length">
       <h1>Search for something</h1>
-
       <q-input
         rounded
         outlined
@@ -29,18 +28,18 @@
       <h1 v-if="loading">Loading...</h1>
       <div v-else>
         <div class="q-pa-md" style="height: 90vh; width: 100vw">
-            <q-tabs
-              v-model="tab"
-              class="text-grey"
-              active-color="secondary"
-              indicator-color="secondary"
-              align="justify"
-            >
-              <q-tab name="summary" label="resumen" />
-              <q-tab name="web" label="EnLaWeb" />
-              <q-tab name="shop" label="Shopping" />
-              <q-tab name="videos" label="Videos" />
-            </q-tabs>
+          <q-tabs
+            v-model="tab"
+            class="text-grey"
+            active-color="secondary"
+            indicator-color="secondary"
+            align="justify"
+          >
+            <q-tab name="summary" label="resumen" />
+            <q-tab name="web" label="EnLaWeb" />
+            <q-tab name="shop" label="Shopping" />
+            <q-tab name="videos" label="Videos" />
+          </q-tabs>
           <q-separator />
 
           <q-tab-panels v-model="tab" animated>
@@ -70,20 +69,7 @@
             </q-tab-panel>
             <q-tab-panel name="web" class="the-panel">
               <div class="text-h6">Mails</div>
-              <q-list>
-                <div v-for="t in searchResults" :key="t.id">
-                  <q-item>
-                    <q-item-section>
-                      <q-item-label>
-                        <span class="cursor-pointer" style="color:blue; font-size:14px;">{{t.url}}</span>
-                      </q-item-label>
-                      <q-item-label style="font-size:18px;">{{ t.title }}</q-item-label>
-                      <q-item-label caption lines="2">{{t.snippet.replace(/(<([^>]+)>)/gi, "")}}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-separator spaced inset />
-                </div>
-              </q-list>
+              <WebResultsCards :items="searchResults" />
             </q-tab-panel>
 
             <q-tab-panel name="shop" class="the-panel">
@@ -107,11 +93,13 @@ import { defineComponent, ref, computed } from "vue";
 import useStore from "../store/useStore";
 import ShopCard from "../components/ShopCard";
 import VideoCards from "../components/VideoCards";
+import WebResultsCards from "../components/WebResultsCards";
 export default defineComponent({
   name: "PageIndex",
   components: {
     ShopCard,
     VideoCards,
+    WebResultsCards,
   },
   setup() {
     const {
