@@ -6,7 +6,7 @@
         rounded
         outlined
         v-model="searchTerm"
-        placeholder="Search"
+        placeholder="Search for your gear"
         v-on:keyup.enter="enterClicked"
       >
         <template v-slot:prepend>

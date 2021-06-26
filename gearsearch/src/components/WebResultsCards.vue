@@ -1,6 +1,6 @@
 <template>
   <div id="parent" class="fit row wrap justify-center items-start content-start q-gutter-md">
-    <q-card class="grid-item no-border-radius"
+    <q-card class="col-12 col-md-3 no-border-radius"
       v-for="card of items"
       :key="card.id"
     >
