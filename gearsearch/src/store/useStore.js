@@ -15,8 +15,14 @@ const state = reactive({
 export default function useTodos() {
   const saveSearch = /*async*/ () => {
     let savedSearchs = JSON.parse(localStorage.getItem("savedSearch")) || [];
+    //all this stuff will eventually be saved on a database. localStorage is for POC purposes only.
     if (!savedSearchs.some(i => i.term.includes(state.searchTerm.toLocaleLowerCase()))) {
-      savedSearchs.push({ "date": new Date(), "term": state.searchTerm.toLocaleLowerCase() });
+      let searchData = {
+        "searchResults": state.searchResults,
+        "videoResults": state.videoResults,
+        "shopResults": state.shopResults
+      }
+      savedSearchs.push({ "date": new Date(), "term": state.searchTerm.toLocaleLowerCase(), "searchData": searchData });
       localStorage.setItem("savedSearch", JSON.stringify(savedSearchs));
       state.savedSearchs = savedSearchs;
     }
