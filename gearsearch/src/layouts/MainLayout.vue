@@ -13,6 +13,7 @@
         </q-toolbar-title>
         <q-space />
         <q-input
+        v-if="searchTerm"
         class="bg-white text-primary col-6"
           dense
           outlined
@@ -39,7 +40,7 @@
           icon="save"
           unelevated
           v-on:click="saveSearchClicked"
-          v-if="searchResults.length"
+          v-if="searchResults && searchResults.length"
         >
         <span class="gt-sm q-ml-sm">Save this search</span>
         </q-btn>

@@ -4,7 +4,11 @@
       v-model="ratingModel"
       size="2em"
       :max="5"
-      color="accent"
+       readonly  
+       color="yellow"
+      icon="star_border"
+      icon-selected="star"
+      icon-half="star_half"
     >
     </q-rating>
   </div>

@@ -28,63 +28,37 @@
       <h1 v-if="loading">Loading...</h1>
       <div v-else>
         <div class="q-pa-md" style="height: 90vh; width: 100vw">
-          <q-tabs
-            v-model="tab"
-            align="justify"
-            class="tabMenu shadow-4 custom-tab"
-          >
-            <q-tab name="summary" label="resumen" class="text-purple-5 bold" />
-            <q-tab name="web" label="EnLaWeb" class="text-cyan-6 bold" />
-            <q-tab name="shop" label="Shopping" class="text-yellow-8 bold" />
-            <q-tab
-              name="videos"
-              label="Videos"
-              class="text-deep-orange-7 bold"
-            />
+          <q-tabs v-model="tab" align="justify" class="tabMenu shadow-4 custom-tab">
+            <q-tab name="summary" label="Quick View" class="text-purple-5 bold" />
+            <q-tab name="web" label="From the Web" class="text-cyan-6 bold" />
+            <q-tab name="shop" label="Compare prices" class="text-yellow-8 bold" />
+            <q-tab name="videos" label="Videos" class="text-deep-orange-7 bold" />
           </q-tabs>
           <q-separator />
 
           <q-tab-panels v-model="tab" animated class="q-mt-xl">
             <q-tab-panel name="summary" class="thePanel">
-              <div class="text-h6">Resumen</div>
-              <hr>
-              <ul>
-                <li v-for="t in searchResultsLimited" :key="t.id">
-                  {{ t.title }}
-                </li>
-              </ul>
-              <q-list bordered>
-                <q-item v-for="t in shopLimited" :key="t.id" clickable v-ripple>
-                  <q-item-section>
-                    <q-item-label>{{ t.title }}</q-item-label>
-                    <q-item-label caption lines="2">
-                      {{ t.description }}
-                    </q-item-label>
-                  </q-item-section>
-
-                  <q-item-section side top>
-                    <q-item-label caption>{{ t.price }}</q-item-label>
-                    <q-icon name="star" color="yellow" />
-                  </q-item-section>
-                  <q-item-section>{{ t.store_name }}</q-item-section>
-                </q-item>
-              </q-list>
+              <div class="row q-gutter-md">
+                <div class="col">
+                  <WebResultsCards :items="webTen" isHome="true"/>
+                </div>
+                <div class="col">
+                  <ShopCard :items="shopTen" isHome="true"/>
+                </div>
+                <div class="col">
+                  <VideoCards :items="videoTen" isHome="true"/>
+                </div>
+              </div>
             </q-tab-panel>
             <q-tab-panel name="web" class="the-panel">
-              <div class="text-h6">Mails</div>
-              <hr>
               <WebResultsCards :items="searchResults" />
             </q-tab-panel>
 
             <q-tab-panel name="shop" class="the-panel">
-              <div class="text-h6">Compare prices</div>
-              <hr>
               <ShopCard :items="shopResults" />
             </q-tab-panel>
 
             <q-tab-panel name="videos">
-              <div class="text-h6">Movies</div>
-              <hr>
               <VideoCards :items="videoResults" />
             </q-tab-panel>
           </q-tab-panels>
@@ -128,17 +102,28 @@ export default defineComponent({
       },
     };
   },
+  computed: {
+    shopTen() {
+      return this.shopResults.slice(0, 10);
+    },
+    webTen() {
+      return this.searchResults.slice(0, 10);
+    },
+    videoTen() {
+      return this.videoResults.slice(0, 10);
+    },
+  },
 });
 </script>
 
 <style scoped>
 .tabMenu {
-      position: fixed;
-    top: 72px;
-    z-index: 100;
-    background: white;
-    width: 100%;
-    margin-left: -10px;
+  position: fixed;
+  top: 72px;
+  z-index: 100;
+  background: white;
+  width: 100%;
+  margin-left: -10px;
 }
 .thePanel {
   height: calc(100vh - 84px);
@@ -147,11 +132,10 @@ export default defineComponent({
   font-weight: 500;
 }
 .custom-tab {
-    font-size: 18pt;
-  }
+  font-size: 18pt;
+}
 
- .q-tab__label {
-    font-weight: 600;
-  }
- 
+.q-tab__label {
+  font-weight: 600;
+}
 </style>
