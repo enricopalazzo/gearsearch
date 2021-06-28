@@ -13,7 +13,6 @@
         </q-toolbar-title>
         <q-space />
         <q-input
-        v-if="searchTerm"
         class="bg-white text-primary col-6"
           dense
           outlined
