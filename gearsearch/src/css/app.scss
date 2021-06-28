@@ -2,3 +2,14 @@
 body {
     font-family: 'Montserrat', sans-serif;
   }
+  a {
+    color:$accent;
+    text-decoration: none;
+  }
+  a:hover {
+    color:$primary;
+    text-decoration: underline;
+  }
+  .full-width {
+    width:100vw!important;
+  }

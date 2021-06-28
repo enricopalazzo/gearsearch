@@ -1,6 +1,5 @@
 import { reactive, toRefs } from "vue";
 import { searchResults, shopResults, videoResults } from "../services";
-//const url = 'https://jsonplaceholder.typicode.com/todos';
 
 const state = reactive({
   searchResults: [],
@@ -9,7 +8,7 @@ const state = reactive({
   loading: false,
   searchTerm: "",
   savedSearchs: JSON.parse(localStorage.getItem("savedSearch")) || []
-  //selectedTodo: null
+
 });
 
 export default function useTodos() {
